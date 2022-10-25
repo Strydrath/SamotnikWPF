@@ -13,8 +13,7 @@ namespace Samotnik
             outside = -1,
             empty = 0,
             full = 1,
-            chosen = 2,
-            highlighted  =3
+            highlighted  =2
         }
 
         private int row;

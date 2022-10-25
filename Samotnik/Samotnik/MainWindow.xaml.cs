@@ -96,6 +96,36 @@ namespace Samotnik
                 }
             }
         }
+
+        private void showStates()
+        {
+            foreach (Control button in Board.Children)
+            {
+                ((Button)button).Content = button.Name; 
+                int rowIndex = System.Windows.Controls.Grid.GetRow(button);
+                int columnIndex = System.Windows.Controls.Grid.GetColumn(button);
+                Field b = boardValues[rowIndex, columnIndex];
+                switch (b.State)
+                {
+                    case Field.FieldState.outside:
+                        ((Button)button).Background = Brushes.White;
+                        break;
+                    case Field.FieldState.full:
+                        ((Button)button).Background = Brushes.Orange;
+                        break;
+                    case Field.FieldState.empty:
+                        ((Button)button).Background = Brushes.Black;
+                        break;
+                    case Field.FieldState.highlighted:
+                        ((Button)button).Background = Brushes.Blue;
+                        break;
+                }
+                if (b.Equals(chosen))
+                {
+                    ((Button)button).Background = Brushes.Yellow;
+                }
+            }
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
@@ -105,26 +135,23 @@ namespace Samotnik
             if (clicked.State == Field.FieldState.highlighted)
             {
 
-                if (checkMove(clicked))
+                if (checkMove(clicked,chosen))
                 {
                     inDanger.State = Field.FieldState.empty;
-                    Button button4 = (Button)Board.FindName("b" + inDanger.Row + inDanger.Column);
-                    button4.Background = Brushes.Black;
+                    chosen.State = Field.FieldState.empty;
+                    clearHighlights();
+                    highlighted.Clear();
+                    clicked.State = Field.FieldState.full;
+                    score += 1;
+                    PointCounter.Text = "Punkty = " + score;
+                    if (checkGameEnd())
+                    {
+                        PointCounter.Text = "KONIEC GRY Z WYNIKIEM : " + score;
+                    }
+                    chosen = null;
+                    showStates();
                 }
-                chosen.State = Field.FieldState.empty;
-                Button button2 = (Button)Board.FindName("b" + chosen.Row + chosen.Column);
-                button2.Background = Brushes.Black;
-                foreach(Field f in highlighted)
-                {
-                    Button button3 = (Button)Board.FindName("b" + f.Row + f.Column);
-                    button3.Background = Brushes.Black;
-                }
-                highlighted.Clear();
-                clicked.State = Field.FieldState.full;
-                Button button1 = (Button)Board.FindName("b" + clicked.Row + clicked.Column);
-                button1.Background = Brushes.Orange;
-                score += 1;
-                PointCounter.Text = "Punkty = "+score;
+                
             }
             else if (clicked.State == Field.FieldState.empty)
             {
@@ -132,13 +159,15 @@ namespace Samotnik
             }
             else if (clicked.State == Field.FieldState.full)
             {
-                boardValues[rowIndex, columnIndex].State = Field.FieldState.chosen;
+                clearHighlights();
                 chosen = clicked;
+                showStates();
                 highilightMoves(rowIndex + 2, columnIndex);
                 highilightMoves(rowIndex - 2, columnIndex);
                 highilightMoves(rowIndex, columnIndex + 2);
                 highilightMoves(rowIndex, columnIndex - 2);
             }
+            showStates();
         }
         private void highilightMoves(int row, int column)
         {
@@ -150,9 +179,9 @@ namespace Samotnik
             {
                 return;
             }
-            if (boardValues[row, column].State == Field.FieldState.empty )
+            if (boardValues[row, column].State == Field.FieldState.empty || boardValues[row, column].State == Field.FieldState.highlighted)
             {
-                if (checkMove(boardValues[row, column]))
+                if (checkMove(boardValues[row, column],chosen))
                 {
                     Button button1 = (Button)Board.FindName("b" + row + column);
                     button1.Background = Brushes.Blue;
@@ -161,28 +190,78 @@ namespace Samotnik
                 }
             }
         }
-        private bool checkMove(Field f)
+
+        private void clearHighlights()
+        {
+            foreach (Field f in highlighted)
+            {
+                f.State = Field.FieldState.empty;
+            }
+            highlighted.Clear();
+        }
+        private bool isAMove(Field a, int row, int column)
+        {
+            if(row>0 && row<7 && column>0 && column < 7)
+            {
+                if (boardValues[row, column].State == Field.FieldState.empty)
+                {
+                    if(checkMove(boardValues[row, column], a))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        private bool checkGameEnd()
+        {
+            bool end = true;
+            foreach(Field f in boardValues)
+            {
+                if (f.State == Field.FieldState.full)
+                {
+                    if (isAMove(f, f.Row + 2, f.Column))
+                    {
+                        end = false;
+                    }
+                    if (isAMove(f, f.Row - 2, f.Column))
+                    {
+                        end = false;
+                    }
+                    if (isAMove(f, f.Row, f.Column + 2))
+                    {
+                        end = false;
+                    }
+                    if (isAMove(f, f.Row, f.Column - 2))
+                    {
+                        end = false;
+                    }
+                }
+            }
+            return end;
+        }
+        private bool checkMove(Field a, Field b)
         {
             int row, column;
-            if (f.Column > chosen.Column)
+            if (b.Column > a.Column)
             {
-                column = f.Column - 1;
-                row = f.Row;
+                column = b.Column - 1;
+                row = a.Row;
             }
-            else if(f.Column < chosen.Column)
+            else if(b.Column < a.Column)
             {
-                column = f.Column + 1;
-                row = f.Row;
+                column = b.Column + 1;
+                row = b.Row;
             }
-            else if(f.Row < chosen.Row)
+            else if(b.Row < a.Row)
             {
-                column = f.Column;
-                row = f.Row + 1;
+                column = b.Column;
+                row = b.Row + 1;
             }
-            else if (f.Row > chosen.Row)
+            else if (b.Row > a.Row)
             {
-                column = f.Column;
-                row = f.Row - 1;
+                column = b.Column;
+                row = b.Row - 1;
             }
             else
             {
