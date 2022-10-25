@@ -26,10 +26,12 @@ namespace Samotnik
         private Field inDanger;
         private List<Field> highlighted;
         private int score;
+        private List<(Field field,int round)> moves;
         public MainWindow()
         {
             GameOver = false;
             highlighted = new List<Field>();
+            moves = new List<(Field, int)>();
             InitializeComponent();
             initValues();
             initBoard();
@@ -136,6 +138,23 @@ namespace Samotnik
             showStates();
             gameOver.IsOpen = false;
         }
+        private void Redo(object sender, RoutedEventArgs e)
+        {
+            if (score > 0)
+            {
+                score--;
+                foreach ((var move, var number) in moves)
+                {
+                    if (number == score)
+                    {
+                        boardValues[move.Row, move.Column].State = move.State;
+                    }
+                }
+                moves.RemoveAll(item => item.round == score);
+                PointCounter.Text = "Punkty = " + score;
+                showStates();
+            }
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
@@ -152,6 +171,9 @@ namespace Samotnik
                     clearHighlights();
                     highlighted.Clear();
                     clicked.State = Field.FieldState.full;
+                    moves.Add((new Field(inDanger.Row,inDanger.Column,Field.FieldState.full), score));
+                    moves.Add((new Field(chosen.Row, chosen.Column, Field.FieldState.full), score));
+                    moves.Add((new Field(clicked.Row, clicked.Column, Field.FieldState.empty), score));
                     score += 1;
                     PointCounter.Text = "Punkty = " + score;
                     if (checkGameEnd())
