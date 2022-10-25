@@ -20,6 +20,7 @@ namespace Samotnik
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Boolean GameOver;
         private Field[,] boardValues = new Field[7, 7];
         private Field chosen;
         private Field inDanger;
@@ -27,6 +28,7 @@ namespace Samotnik
         private int score;
         public MainWindow()
         {
+            GameOver = false;
             highlighted = new List<Field>();
             InitializeComponent();
             initValues();
@@ -126,6 +128,15 @@ namespace Samotnik
                 }
             }
         }
+        private void ResetGame(object sender, RoutedEventArgs e)
+        {
+            score = 0;
+            initValues();
+            initBoard();
+            PointCounter.Text = "Punkty = " + score;
+            showStates();
+            gameOver.IsOpen = false;
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
@@ -146,7 +157,10 @@ namespace Samotnik
                     PointCounter.Text = "Punkty = " + score;
                     if (checkGameEnd())
                     {
-                        PointCounter.Text = "KONIEC GRY Z WYNIKIEM : " + score;
+                        PointCounter.Text = score.ToString();
+                        GameOver = true;
+                        gameOver.IsOpen = true;
+                        gameOverText.Text = "KONIEC GRY Z WYNIKIEM : " + score;
                     }
                     chosen = null;
                     showStates();

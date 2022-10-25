@@ -52,7 +52,7 @@
         </Style>
 
     </Window.Resources>
-    <Grid x:Name="Content">
+    <Grid x:Name="AllContent">
         <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="75,40,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
         <Grid x:Name ="Board" Margin="200,40,200,40" >
             <Grid.ColumnDefinitions>
@@ -119,5 +119,26 @@
             <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b64" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="6"/>
 
         </Grid>
+        <Popup Name="gameOver" IsOpen="{Binding GameOver, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+      StaysOpen="true"  PlacementTarget="{Binding ElementName=PointCounter}">
+            <Border BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="gameOverText" Background="LightBlue" Foreground="Blue" Padding="30"  Grid.Column ="0" Grid.Row ="0">
+                    Koniec gry
+                    </TextBlock>
+                    <Button Click="ResetGame"  Grid.Column ="0" Grid.Row ="1">
+                        Zacznij od nowa
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
     </Grid>
 </Window>
