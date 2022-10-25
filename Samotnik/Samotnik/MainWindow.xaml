@@ -53,7 +53,7 @@
 
     </Window.Resources>
     <Grid x:Name="AllContent">
-        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="75,40,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="78,21,0,0" TextWrapping="Wrap" Text="Punkty = 0" VerticalAlignment="Top"/>
         <Grid x:Name ="Board" Margin="200,40,200,40" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -120,7 +120,7 @@
 
         </Grid>
         <Popup Name="gameOver" IsOpen="{Binding GameOver, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-      StaysOpen="true"  PlacementTarget="{Binding ElementName=PointCounter}">
+      StaysOpen="true"  PlacementTarget="{Binding ElementName=b14}">
             <Border BorderThickness="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -140,5 +140,7 @@
                 </Grid>
             </Border>
         </Popup>
+        <Button x:Name="resetButton" Click="ResetGame" Content="Reset" HorizontalAlignment="Left" Margin="157,19,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="redoButton"  Click="Redo" Content="Redo" HorizontalAlignment="Left" Margin="220,19,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

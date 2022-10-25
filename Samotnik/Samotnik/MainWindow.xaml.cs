@@ -103,7 +103,6 @@ namespace Samotnik
         {
             foreach (Control button in Board.Children)
             {
-                ((Button)button).Content = button.Name; 
                 int rowIndex = System.Windows.Controls.Grid.GetRow(button);
                 int columnIndex = System.Windows.Controls.Grid.GetColumn(button);
                 Field b = boardValues[rowIndex, columnIndex];
