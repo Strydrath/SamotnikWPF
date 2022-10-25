@@ -20,12 +20,19 @@ namespace Samotnik
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int[,] boardValues = new int[7, 7];
+        private Field[,] boardValues = new Field[7, 7];
+        private Field chosen;
+        private Field inDanger;
+        private List<Field> highlighted;
+        private int score;
         public MainWindow()
         {
+            highlighted = new List<Field>();
             InitializeComponent();
             initValues();
             initBoard();
+            score = 0;
+            PointCounter.Text = "Punkty = " + score;
 
         }
         public void initValues()
@@ -34,41 +41,41 @@ namespace Samotnik
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    boardValues[i, j] = -1;
+                    boardValues[i, j] = new Field(i,j,Field.FieldState.outside);
                 }
                 for (int j = 2; j < 5; j++)
                 {
-                    boardValues[i, j] = 1;
+                    boardValues[i, j] = new Field(i, j, Field.FieldState.full);
                 }
                 for (int j = 5; j < 7; j++)
                 {
-                    boardValues[i, j] = -1;
+                    boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
                 }
             }
             for (int i = 2; i < 5; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    boardValues[i, j] = 1;
+                    boardValues[i, j] = new Field(i, j, Field.FieldState.full);
                 }
             }
             for (int i = 5; i < 7; i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
-                    boardValues[i, j] = -1;
+                    boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
                 }
                 for (int j = 2; j < 5; j++)
                 {
-                    boardValues[i, j] = 1;
+                    boardValues[i, j] = new Field(i, j, Field.FieldState.full);
                 }
                 for (int j = 5; j < 7; j++)
                 {
-                    boardValues[i, j] = -1;
+                    boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
                 }
             }
 
-            boardValues[3, 3] = 0;
+            boardValues[3, 3] = new Field(3, 3, Field.FieldState.empty);
         }
         private void initBoard()
         {
@@ -78,11 +85,11 @@ namespace Samotnik
                 {
                     int rowIndex = System.Windows.Controls.Grid.GetRow(button);
                     int columnIndex = System.Windows.Controls.Grid.GetColumn(button);
-                    if (boardValues[rowIndex, columnIndex] == 0)
+                    if (boardValues[rowIndex, columnIndex].State == Field.FieldState.empty)
                     {
                         ((Button)button).Background = Brushes.Black;
                     }
-                    else if (boardValues[rowIndex, columnIndex] == 1)
+                    else if (boardValues[rowIndex, columnIndex].State == Field.FieldState.full)
                     {
                         ((Button)button).Background = Brushes.Orange;
                     }
@@ -94,14 +101,44 @@ namespace Samotnik
             Button button = (Button)sender;
             int rowIndex = System.Windows.Controls.Grid.GetRow(button);
             int columnIndex = System.Windows.Controls.Grid.GetColumn(button);
-            if (boardValues[rowIndex, columnIndex] == 0)
+            Field clicked = boardValues[rowIndex, columnIndex];
+            if (clicked.State == Field.FieldState.highlighted)
+            {
+
+                if (checkMove(clicked))
+                {
+                    inDanger.State = Field.FieldState.empty;
+                    Button button4 = (Button)Board.FindName("b" + inDanger.Row + inDanger.Column);
+                    button4.Background = Brushes.Black;
+                }
+                chosen.State = Field.FieldState.empty;
+                Button button2 = (Button)Board.FindName("b" + chosen.Row + chosen.Column);
+                button2.Background = Brushes.Black;
+                foreach(Field f in highlighted)
+                {
+                    Button button3 = (Button)Board.FindName("b" + f.Row + f.Column);
+                    button3.Background = Brushes.Black;
+                }
+                highlighted.Clear();
+                clicked.State = Field.FieldState.full;
+                Button button1 = (Button)Board.FindName("b" + clicked.Row + clicked.Column);
+                button1.Background = Brushes.Orange;
+                score += 1;
+                PointCounter.Text = "Punkty = "+score;
+            }
+            else if (clicked.State == Field.FieldState.empty)
             {
                 return;
             }
-            highilightMoves(rowIndex + 2, columnIndex);
-            highilightMoves(rowIndex - 2, columnIndex);
-            highilightMoves(rowIndex, columnIndex);
-            highilightMoves(rowIndex, columnIndex - 2);
+            else if (clicked.State == Field.FieldState.full)
+            {
+                boardValues[rowIndex, columnIndex].State = Field.FieldState.chosen;
+                chosen = clicked;
+                highilightMoves(rowIndex + 2, columnIndex);
+                highilightMoves(rowIndex - 2, columnIndex);
+                highilightMoves(rowIndex, columnIndex + 2);
+                highilightMoves(rowIndex, columnIndex - 2);
+            }
         }
         private void highilightMoves(int row, int column)
         {
@@ -113,12 +150,50 @@ namespace Samotnik
             {
                 return;
             }
-            if (boardValues[row, column] == 0)
+            if (boardValues[row, column].State == Field.FieldState.empty )
             {
-                Button button1 = (Button)Board.FindName("b" + row + column);
-                button1.Background = Brushes.Blue;
-                boardValues[row, column] = 2;
+                if (checkMove(boardValues[row, column]))
+                {
+                    Button button1 = (Button)Board.FindName("b" + row + column);
+                    button1.Background = Brushes.Blue;
+                    boardValues[row, column].State = Field.FieldState.highlighted;
+                    highlighted.Add(boardValues[row, column]);
+                }
             }
+        }
+        private bool checkMove(Field f)
+        {
+            int row, column;
+            if (f.Column > chosen.Column)
+            {
+                column = f.Column - 1;
+                row = f.Row;
+            }
+            else if(f.Column < chosen.Column)
+            {
+                column = f.Column + 1;
+                row = f.Row;
+            }
+            else if(f.Row < chosen.Row)
+            {
+                column = f.Column;
+                row = f.Row + 1;
+            }
+            else if (f.Row > chosen.Row)
+            {
+                column = f.Column;
+                row = f.Row - 1;
+            }
+            else
+            {
+                return false;
+            }
+            if(boardValues[row,column].State == Field.FieldState.full)
+            {
+                inDanger = boardValues[row, column];
+                return true;
+            }
+            return false;
         }
     }
 }

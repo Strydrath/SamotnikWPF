@@ -6,7 +6,118 @@
         xmlns:local="clr-namespace:Samotnik"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.Resources>
+        <Style x:Key="ShadowStyle">
+            <Setter Property="Control.Foreground" Value="LightGray" />
+        </Style>
+        <Style x:Key="OrangeButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="FontSize" Value="11px"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                        <GradientStop Color="#FFFFD190" Offset="0.2"/>
+                        <GradientStop Color="Orange" Offset="0.85"/>
+                        <GradientStop Color="#FFFFD190" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border"
+               BorderThickness="1"
+               Padding="4,4"
+               BorderBrush="DarkGray"
+               CornerRadius="50"
+               Background="{TemplateBinding Background}">
+                            <Grid >
+                                <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center" Name="contentShadow"
+                   Style="{StaticResource ShadowStyle}">
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform X="1.0" Y="1.0" />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                                <ContentPresenter HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+    </Window.Resources>
+    <Grid x:Name="Content">
+        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="75,40,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <Grid x:Name ="Board" Margin="200,40,200,40" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Button  Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b02" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="0" />
+            <Button  Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b03" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="0"/>
+            <Button  Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b04" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="0"/>
+
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b12" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="1" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b13" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="1"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b14" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="1"/>
+
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b20" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="0" Grid.Row ="2" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b21" Background ="black" BorderBrush = "SlateGray" Grid.Column ="1" Grid.Row ="2"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b22" Background ="black" BorderBrush = "SlateGray" Grid.Column ="2" Grid.Row ="2"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b23" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="3" Grid.Row ="2" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b24" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="2"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b25" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="5" Grid.Row ="2" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b26" Background ="black" BorderBrush = "SlateGray" Grid.Column ="6" Grid.Row ="2"/>
+
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b30" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="0" Grid.Row ="3" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b31" Background ="black" BorderBrush = "SlateGray" Grid.Column ="1" Grid.Row ="3"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b32" Background ="black" BorderBrush = "SlateGray" Grid.Column ="2" Grid.Row ="3"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b33" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="3" Grid.Row ="3" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b34" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="3"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b35" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="5" Grid.Row ="3" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b36" Background ="black" BorderBrush = "SlateGray" Grid.Column ="6" Grid.Row ="3"/>
+
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b40" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="0" Grid.Row ="4" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b41" Background ="black" BorderBrush = "SlateGray" Grid.Column ="1" Grid.Row ="4"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b42" Background ="black" BorderBrush = "SlateGray" Grid.Column ="2" Grid.Row ="4"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b43" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="3" Grid.Row ="4" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b44" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="4"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b45" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="5" Grid.Row ="4" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b46" Background ="black" BorderBrush = "SlateGray" Grid.Column ="6" Grid.Row ="4"/>
+
+
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b52" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="5" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b53" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="5"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b54" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="5"/>
+
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b62" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="6" />
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b63" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="6"/>
+            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b64" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="6"/>
+
+        </Grid>
     </Grid>
 </Window>
