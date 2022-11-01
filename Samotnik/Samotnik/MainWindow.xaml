@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Samotnik"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Samotnik" Height="470" Width="800" ResizeMode="NoResize">
     <Window.Resources>
+        <PathGeometry x:Key="AnimationPath">
+            <PathFigure IsClosed="False" StartPoint="0,0">
+                <PathFigure.Segments>
+                    <PathSegmentCollection>
+                        <LineSegment Point="230,-150" />
+                    </PathSegmentCollection>
+                </PathFigure.Segments>
+            </PathFigure>
+        </PathGeometry>
         <Style x:Key="ShadowStyle">
             <Setter Property="Control.Foreground" Value="LightGray" />
         </Style>
@@ -16,6 +25,8 @@
             <Setter Property="FontFamily" Value="Verdana"/>
             <Setter Property="FontSize" Value="11px"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Height" Value="45"/>
             <Setter Property="Background" >
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
@@ -141,6 +152,44 @@
             </Border>
         </Popup>
         <Button x:Name="resetButton" Click="ResetGame" Content="Reset" HorizontalAlignment="Left" Margin="157,19,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="redoButton"  Click="Redo" Content="Redo" HorizontalAlignment="Left" Margin="220,19,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="redoButton"  Click="Undo" Content="Undo" HorizontalAlignment="Left" Margin="220,19,0,0" VerticalAlignment="Top"/>
+
+        <StackPanel Margin="0,180,0,0">
+            <Image Source="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static\logo.jpg" Height="69" Width="200"/>
+            <Button x:Name="startButton" Click="Start_Game" Content="Start Game" Width="100" Height="20" />
+            <StackPanel.RenderTransform>
+                <TranslateTransform x:Name="AnimatedTranslateTransform"  />
+            </StackPanel.RenderTransform>
+
+            <StackPanel.Triggers>
+                <EventTrigger RoutedEvent="Button.Click" SourceName="startButton">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="1x">
+
+                            <!-- Animates the rectangle horizotally along the path. -->
+                            <DoubleAnimationUsingPath
+                                Storyboard.TargetName="AnimatedTranslateTransform"
+                                Storyboard.TargetProperty="X"
+                                PathGeometry="{StaticResource AnimationPath}"
+                                Source="X" 
+                                Duration="0:0:5"  />
+
+                            <!-- Animates the rectangle vertically along the path. -->
+                            <DoubleAnimationUsingPath
+                                Storyboard.TargetName="AnimatedTranslateTransform"
+                                Storyboard.TargetProperty="Y"
+                                PathGeometry="{StaticResource AnimationPath}"
+                                Source="Y" 
+                                Duration="0:0:5"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </StackPanel.Triggers>
+        </StackPanel>
+
+
+        
+
+
     </Grid>
 </Window>

@@ -15,13 +15,12 @@ using System.Windows.Shapes;
 
 namespace Samotnik
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public Boolean GameOver;
-        private Field[,] boardValues = new Field[7, 7];
+        private static int boardSize = 7;
+        public bool GameOver;
+        public bool GameStarted;
+        private Field[,] boardValues = new Field[boardSize, boardSize];
         private Field chosen;
         private Field inDanger;
         private List<Field> highlighted;
@@ -30,6 +29,7 @@ namespace Samotnik
         public MainWindow()
         {
             GameOver = false;
+            GameStarted = false;
             highlighted = new List<Field>();
             moves = new List<(Field, int)>();
             InitializeComponent();
@@ -51,19 +51,19 @@ namespace Samotnik
                 {
                     boardValues[i, j] = new Field(i, j, Field.FieldState.full);
                 }
-                for (int j = 5; j < 7; j++)
+                for (int j = 5; j < boardSize; j++)
                 {
                     boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
                 }
             }
             for (int i = 2; i < 5; i++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < boardSize; j++)
                 {
                     boardValues[i, j] = new Field(i, j, Field.FieldState.full);
                 }
             }
-            for (int i = 5; i < 7; i++)
+            for (int i = 5; i < boardSize; i++)
             {
                 for (int j = 0; j < 2; j++)
                 {
@@ -73,14 +73,16 @@ namespace Samotnik
                 {
                     boardValues[i, j] = new Field(i, j, Field.FieldState.full);
                 }
-                for (int j = 5; j < 7; j++)
+                for (int j = 5; j < boardSize; j++)
                 {
                     boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
                 }
             }
 
-            boardValues[3, 3] = new Field(3, 3, Field.FieldState.empty);
+            boardValues[(boardSize-1)/2, (boardSize - 1) / 2] = new Field(3, 3, Field.FieldState.empty);
         }
+
+
         private void initBoard()
         {
             foreach (Control button in Board.Children)
@@ -129,7 +131,8 @@ namespace Samotnik
                 }
             }
         }
-        private void ResetGame(object sender, RoutedEventArgs e)
+
+            private void ResetGame(object sender, RoutedEventArgs e)
         {
             score = 0;
             initValues();
@@ -138,25 +141,35 @@ namespace Samotnik
             showStates();
             gameOver.IsOpen = false;
         }
-        private void Redo(object sender, RoutedEventArgs e)
+        private void Undo(object sender, RoutedEventArgs e)
         {
-            if (score > 0)
-            {
+            if (score > 0) { 
                 score--;
-                foreach ((var move, var number) in moves)
+                foreach((var move, var number) in moves)
                 {
-                    if (number == score)
+                    if(number == score)
                     {
                         boardValues[move.Row, move.Column].State = move.State;
-                    }
+                    }   
                 }
                 moves.RemoveAll(item => item.round == score);
                 PointCounter.Text = "Punkty = " + score;
                 showStates();
             }
         }
+
+        private void Start_Game(object sender, RoutedEventArgs e)
+        {
+            GameStarted = true;
+            Button button = (Button)sender;
+            button.Visibility = Visibility.Collapsed;
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!GameStarted)
+            {
+                return;
+            }
             Button button = (Button)sender;
             int rowIndex = System.Windows.Controls.Grid.GetRow(button);
             int columnIndex = System.Windows.Controls.Grid.GetColumn(button);
@@ -176,10 +189,19 @@ namespace Samotnik
                     moves.Add((new Field(clicked.Row, clicked.Column, Field.FieldState.empty), score));
                     score += 1;
                     PointCounter.Text = "Punkty = " + score;
-                    if (checkGameEnd())
+                    if (checkWin())
                     {
-                        PointCounter.Text = score.ToString();
+                        PointCounter.Text = "Punkty = "+score.ToString();
                         GameOver = true;
+                        GameStarted = false;
+                        gameOver.IsOpen = true;
+                        gameOverText.Text = "WYGRALES,GRATULACJE!";
+                    }
+                    else if (checkGameEnd())
+                    {
+                        PointCounter.Text = "Punkty = " + score.ToString();
+                        GameOver = true;
+                        GameStarted = false;
                         gameOver.IsOpen = true;
                         gameOverText.Text = "KONIEC GRY Z WYNIKIEM : " + score;
                     }
@@ -210,7 +232,7 @@ namespace Samotnik
             {
                 return;
             }
-            if (row >= 7 || column >= 7)
+            if (row >= boardSize  || column >= boardSize)
             {
                 return;
             }
@@ -236,7 +258,7 @@ namespace Samotnik
         }
         private bool isAMove(Field a, int row, int column)
         {
-            if(row>0 && row<7 && column>0 && column < 7)
+            if(row>=0 && row<7 && column>=0 && column < 7)
             {
                 if (boardValues[row, column].State == Field.FieldState.empty)
                 {
@@ -248,6 +270,25 @@ namespace Samotnik
             }
             return false;
         }
+
+        private bool checkWin()
+        {
+            int count = 0;
+            foreach (Field f in boardValues)
+            {
+                if (f.State == Field.FieldState.full||f.State == Field.FieldState.highlighted)
+                {
+                    count++;
+                }
+            }
+
+            if (count > 1)
+            {
+                return false;
+            }
+
+            return true;
+        }
         private bool checkGameEnd()
         {
             bool end = true;
@@ -255,6 +296,9 @@ namespace Samotnik
             {
                 if (f.State == Field.FieldState.full)
                 {
+                    if(f.Row ==4 &&f.Column == 0){
+                        int x = 0;
+                    }
                     if (isAMove(f, f.Row + 2, f.Column))
                     {
                         end = false;
