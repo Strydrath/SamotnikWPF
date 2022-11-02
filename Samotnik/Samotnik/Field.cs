@@ -10,7 +10,7 @@ namespace Samotnik
     {
         public enum FieldState
         {
-            outside = -1,
+            outside = 9,
             empty = 0,
             full = 1,
             highlighted  =2

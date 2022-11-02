@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Pipes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.WebRequestMethods;
+using File = System.IO.File;
 
 namespace Samotnik
 {
@@ -30,6 +34,8 @@ namespace Samotnik
         private Style emptyStyle;
         private Style chosenStyle;
         private Style highlightStyle;
+        private string path;
+        //private List<string> stages;
         public MainWindow()
         {
             GameOver = false;
@@ -37,11 +43,15 @@ namespace Samotnik
             highlighted = new List<Field>();
             moves = new List<(Field, int)>();
             InitializeComponent();
+            var stages = GetStages();
+            Stages.ItemsSource = stages;
+            Stages.SelectedItem = "save.txt";
+            this.path = "static/save.txt";
             setupStyles();
             initValues();
             initBoard();
             score = 0;
-            PointCounter.Text = "Punkty = " + score;
+            PointCounter.Text = score.ToString();
 
         }
 
@@ -53,47 +63,52 @@ namespace Samotnik
             highlightStyle = this.FindResource("HighlightedButton") as Style;
 
         }
+
+        public void readValues(String path)
+        {
+
+            // Opening the existing file for reading
+            using (FileStream fs = File.OpenRead(path))
+            {
+                using (var streamReader = new StreamReader(fs, Encoding.UTF8, true, 128))
+                {
+                    String line;
+                    int i = 0;
+                    while ((line = streamReader.ReadLine()) != null)
+                    {
+                        // Process line
+                        for (int j = 0; j < line.Length; j++)
+                        {
+                            boardValues[i, j] = new Field(i, j, (Field.FieldState)(line[j]-'0'));
+                        }
+                        i++;
+                    }
+                    streamReader.Close();
+                }
+            }
+        }
+
+        public void saveValues(String path)
+        {
+            using (var streamWriter = new StreamWriter(path))
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    string line = "";
+                    for (int j = 0; j < 7; j++)
+                    {
+                        line += (int)boardValues[i, j].State;
+                    }
+                    streamWriter.WriteLine(line);
+                }
+                streamWriter.Close();
+            }
+        }
+
+
         public void initValues()
         {
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 0; j < 2; j++)
-                {
-                    boardValues[i, j] = new Field(i,j,Field.FieldState.outside);
-                }
-                for (int j = 2; j < 5; j++)
-                {
-                    boardValues[i, j] = new Field(i, j, Field.FieldState.full);
-                }
-                for (int j = 5; j < boardSize; j++)
-                {
-                    boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
-                }
-            }
-            for (int i = 2; i < 5; i++)
-            {
-                for (int j = 0; j < boardSize; j++)
-                {
-                    boardValues[i, j] = new Field(i, j, Field.FieldState.full);
-                }
-            }
-            for (int i = 5; i < boardSize; i++)
-            {
-                for (int j = 0; j < 2; j++)
-                {
-                    boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
-                }
-                for (int j = 2; j < 5; j++)
-                {
-                    boardValues[i, j] = new Field(i, j, Field.FieldState.full);
-                }
-                for (int j = 5; j < boardSize; j++)
-                {
-                    boardValues[i, j] = new Field(i, j, Field.FieldState.outside);
-                }
-            }
-
-            boardValues[(boardSize-1)/2, (boardSize - 1) / 2] = new Field(3, 3, Field.FieldState.empty);
+            readValues(path);
         }
 
 
@@ -148,10 +163,24 @@ namespace Samotnik
             score = 0;
             initValues();
             initBoard();
-            PointCounter.Text = "Punkty = " + score;
+            PointCounter.Text = score.ToString();
             showStates();
-            GameStarted = true;
+            GameStarted = false;
             gameOver.IsOpen = false;
+            LoadButton.Visibility = Visibility.Visible;
+            Stages.Visibility = Visibility.Visible;
+        }
+        private void NewGame(object sender, RoutedEventArgs e)
+        {
+            score = 0;
+            initValues();
+            initBoard();
+            PointCounter.Text =score.ToString();
+            showStates();
+            GameStarted = false;
+            gameOver.IsOpen = false;
+            LoadButton.Visibility = Visibility.Visible;
+            Stages.Visibility = Visibility.Visible;
         }
         private void Undo(object sender, RoutedEventArgs e)
         {
@@ -165,26 +194,56 @@ namespace Samotnik
                     }   
                 }
                 moves.RemoveAll(item => item.round == score);
-                PointCounter.Text = "Punkty = " + score;
+                PointCounter.Text =score.ToString();
                 showStates();
             }
         }
 
         private void Start_Game(object sender, RoutedEventArgs e)
         {
-            GameStarted = true;
             Button button = (Button)sender;
             button.Visibility = Visibility.Collapsed;
         }
+
+        private void Load_Stage(object sender, RoutedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            this.path = "static/" + comboBox.SelectedItem.ToString();
+            readValues(path);
+            initBoard();
+            score = 0;
+            PointCounter.Text = "Pukty = " + score;
+        }
+
+        private void Choose_Stage(object sender, RoutedEventArgs e)
+        {
+            GameStarted = true;
+            ((Button)sender).Visibility = Visibility.Collapsed;
+            Stages.Visibility = Visibility.Collapsed;
+            saveValues("./static/save.txt");
+            this.path = "./static/save.txt";
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!GameStarted)
-            {
-                return;
-            }
             Button button = (Button)sender;
             int rowIndex = System.Windows.Controls.Grid.GetRow(button);
             int columnIndex = System.Windows.Controls.Grid.GetColumn(button);
+            if (!GameStarted)
+            {
+                var current = boardValues[rowIndex, columnIndex];
+                switch (current.State)
+                {
+                    case Field.FieldState.full:
+                        boardValues[rowIndex, columnIndex].State = Field.FieldState.empty;
+                        break;
+                    case Field.FieldState.empty:
+                        boardValues[rowIndex, columnIndex].State = Field.FieldState.full;
+                        break;
+                }
+                initBoard();
+                return;
+            }
             Field clicked = boardValues[rowIndex, columnIndex];
             if (clicked.State == Field.FieldState.highlighted)
             {
@@ -200,18 +259,16 @@ namespace Samotnik
                     moves.Add((new Field(chosen.Row, chosen.Column, Field.FieldState.full), score));
                     moves.Add((new Field(clicked.Row, clicked.Column, Field.FieldState.empty), score));
                     score += 1;
-                    PointCounter.Text = "Punkty = " + score;
+                    PointCounter.Text = score.ToString();
                     if (checkWin())
                     {
-                        PointCounter.Text = "Punkty = "+score.ToString();
                         GameOver = true;
                         GameStarted = false;
                         gameOver.IsOpen = true;
-                        gameOverText.Text = "WYGRALES,GRATULACJE!";
+                        gameOverText.Text = "WYGRALES, GRATULACJE!";
                     }
                     else if (checkGameEnd())
                     {
-                        PointCounter.Text = "Punkty = " + score.ToString();
                         GameOver = true;
                         GameStarted = false;
                         gameOver.IsOpen = true;
@@ -259,6 +316,20 @@ namespace Samotnik
                 }
             }
         }
+
+        private static List <String> GetStages()
+        {
+            List <String> Stages = new List<string>();
+            DirectoryInfo dinfo = new DirectoryInfo(@".\static\");
+            FileInfo[] Files = dinfo.GetFiles("*.txt");
+            foreach (FileInfo file in Files)
+            {
+                Stages.Add(file.Name);
+            }
+            return Stages;
+        }
+
+
 
         private void clearHighlights()
         {

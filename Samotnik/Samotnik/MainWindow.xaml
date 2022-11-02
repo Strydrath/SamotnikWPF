@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Samotnik"
         mc:Ignorable="d"
-        Title="Samotnik" Height="470" Width="800" ResizeMode="NoResize">
+        Title="Samotnik" Height="470" Width="800" ResizeMode="NoResize"
+        Icon="pack://siteoforigin:,,,/static/full.jpg">
     <Window.Resources>
         <PathGeometry x:Key="AnimationPath">
             <PathFigure IsClosed="False" StartPoint="0,0">
@@ -22,7 +23,7 @@
             <Setter Property="Margin" Value=" 0 0 0 0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/full.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/full.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -39,7 +40,7 @@
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/empty.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/empty.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -55,7 +56,7 @@
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/chosen.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/chosen.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -71,7 +72,23 @@
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/highlighted.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/highlighted.jpg" Stretch="Fill" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ResetButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/reset.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -90,7 +107,7 @@
             <RowDefinition Height="159*"/>
             <RowDefinition Height="295*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="78,21,0,0" TextWrapping="Wrap" Text="Punkty = 0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="257,32,0,0" TextWrapping="Wrap" Text="0" FontSize="30" FontFamily="Papyrus" VerticalAlignment="Top"/>
         <Grid x:Name ="Board" Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,27,0,0" Grid.RowSpan="2"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -171,21 +188,21 @@
                     <TextBlock x:Name="gameOverText" Background="LightBlue" Foreground="Blue" Padding="30"  Grid.Column ="0" Grid.Row ="0">
                     Koniec gry
                     </TextBlock>
-                    <Button Click="ResetGame"  Grid.Column ="0" Grid.Row ="1">
+                    <Button Click="NewGame"  Grid.Column ="0" Grid.Row ="1">
                         Zacznij od nowa
                     </Button>
                 </Grid>
             </Border>
         </Popup>
-        <Button x:Name="resetButton" Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top">
+        <Button x:Name="resetButton" Style="{StaticResource ResetButton}"  Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="undoButton" Style="{StaticResource ResetButton}"  Click="Undo" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,70,0,0" VerticalAlignment="Top">
             <Button.Background>
-                <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/reset.jpg" Stretch="Fill" />
+                <ImageBrush ImageSource="pack://siteoforigin:,,,/static/undo.jpg" Stretch="Fill" />
             </Button.Background>
         </Button>
-        <Button x:Name="redoButton"  Click="Undo" Content="Undo" HorizontalAlignment="Left" Margin="220,19,0,0" VerticalAlignment="Top"/>
 
         <StackPanel VerticalAlignment="Top" Width =" 180" Height="90" Margin="310,23,310,0" Grid.Row="1" >
-            <Image Source="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static\logo.jpg" Height="69" Width="200"/>
+            <Image Source="pack://siteoforigin:,,,/static/logo.jpg" Height="69" Width="200"/>
             <Button x:Name="startButton" Click="Start_Game" Content="Start Game" Width="100" Height="20" />
             <StackPanel.RenderTransform>
                 <TranslateTransform x:Name="AnimatedTranslateTransform"  />
@@ -213,7 +230,11 @@
                 </EventTrigger>
             </StackPanel.Triggers>
         </StackPanel>
-
+        <StackPanel Margin="538,126,-38,10" Grid.Row="1" Width="250">
+            <TextBlock x:Name="Instructions"  TextWrapping="Wrap" FontWeight="Bold" FontFamily="Papyrus" Text="Choose board       or create your own" VerticalAlignment="Center" Width="103"/>
+            <ComboBox SelectedValuePath="Content" x:Name="Stages" SelectionChanged="Load_Stage" Margin="20"  Width="120"/>
+            <Button  x:Name="LoadButton"  Click="Choose_Stage" Content="START" Width="100" />
+            </StackPanel>
 
     </Grid>
 </Window>
