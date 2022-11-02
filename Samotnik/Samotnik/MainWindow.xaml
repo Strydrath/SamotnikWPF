@@ -16,56 +16,82 @@
                 </PathFigure.Segments>
             </PathFigure>
         </PathGeometry>
-        <Style x:Key="ShadowStyle">
-            <Setter Property="Control.Foreground" Value="LightGray" />
-        </Style>
-        <Style x:Key="OrangeButton" TargetType="Button">
+
+        <Style x:Key="FullButton" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontFamily" Value="Verdana"/>
-            <Setter Property="FontSize" Value="11px"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Width" Value="45"/>
-            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value=" 0 0 0 0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
-                        <GradientStop Color="#FFFFD190" Offset="0.2"/>
-                        <GradientStop Color="Orange" Offset="0.85"/>
-                        <GradientStop Color="#FFFFD190" Offset="1"/>
-                    </LinearGradientBrush>
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/full.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Name="border"
-               BorderThickness="1"
-               Padding="4,4"
-               BorderBrush="DarkGray"
-               CornerRadius="50"
-               Background="{TemplateBinding Background}">
-                            <Grid >
-                                <ContentPresenter HorizontalAlignment="Center"
-                              VerticalAlignment="Center" Name="contentShadow"
-                   Style="{StaticResource ShadowStyle}">
-                                    <ContentPresenter.RenderTransform>
-                                        <TranslateTransform X="1.0" Y="1.0" />
-                                    </ContentPresenter.RenderTransform>
-                                </ContentPresenter>
-                                <ContentPresenter HorizontalAlignment="Center"
-                           VerticalAlignment="Center" Name="content"/>
-                            </Grid>
-                        </Border>
+                        <Border Name="border" Background="{TemplateBinding Background}"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
+        <Style x:Key="EmptyButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/empty.jpg" Stretch="Fill" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ChosenButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/chosen.jpg" Stretch="Fill" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="HighlightedButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/highlighted.jpg" Stretch="Fill" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
     </Window.Resources>
     <Grid x:Name="AllContent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="159*"/>
+            <RowDefinition Height="295*"/>
+        </Grid.RowDefinitions>
         <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="78,21,0,0" TextWrapping="Wrap" Text="Punkty = 0" VerticalAlignment="Top"/>
-        <Grid x:Name ="Board" Margin="200,40,200,40" >
+        <Grid x:Name ="Board" Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,27,0,0" Grid.RowSpan="2"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -88,50 +114,50 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button  Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b02" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="0" />
-            <Button  Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b03" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="0"/>
-            <Button  Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b04" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="0"/>
+            <Button  Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b02" Grid.Column ="2" Grid.Row ="0" />
+            <Button  Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b03" Grid.Column ="3" Grid.Row ="0"/>
+            <Button  Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b04"   Grid.Column ="4" Grid.Row ="0"/>
 
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b12" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="1" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b13" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="1"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b14" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="1"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b12"   Grid.Column ="2" Grid.Row ="1" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b13"   Grid.Column ="3" Grid.Row ="1"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b14"   Grid.Column ="4" Grid.Row ="1"/>
 
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b20" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="0" Grid.Row ="2" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b21" Background ="black" BorderBrush = "SlateGray" Grid.Column ="1" Grid.Row ="2"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b22" Background ="black" BorderBrush = "SlateGray" Grid.Column ="2" Grid.Row ="2"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b23" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="3" Grid.Row ="2" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b24" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="2"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b25" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="5" Grid.Row ="2" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b26" Background ="black" BorderBrush = "SlateGray" Grid.Column ="6" Grid.Row ="2"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b20"   Grid.Column ="0" Grid.Row ="2" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b21"   Grid.Column ="1" Grid.Row ="2"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b22"   Grid.Column ="2" Grid.Row ="2"/>
+            <Button Style="{StaticResource EmptyButton}" Click="Button_Click"  x:Name="b23"   Grid.Column ="3" Grid.Row ="2" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b24"   Grid.Column ="4" Grid.Row ="2"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b25"   Grid.Column ="5" Grid.Row ="2" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b26"   Grid.Column ="6" Grid.Row ="2"/>
 
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b30" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="0" Grid.Row ="3" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b31" Background ="black" BorderBrush = "SlateGray" Grid.Column ="1" Grid.Row ="3"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b32" Background ="black" BorderBrush = "SlateGray" Grid.Column ="2" Grid.Row ="3"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b33" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="3" Grid.Row ="3" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b34" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="3"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b35" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="5" Grid.Row ="3" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b36" Background ="black" BorderBrush = "SlateGray" Grid.Column ="6" Grid.Row ="3"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b30"   Grid.Column ="0" Grid.Row ="3" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b31"   Grid.Column ="1" Grid.Row ="3"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b32"   Grid.Column ="2" Grid.Row ="3"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b33"   Grid.Column ="3" Grid.Row ="3" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b34"   Grid.Column ="4" Grid.Row ="3"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b35"   Grid.Column ="5" Grid.Row ="3" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b36"   Grid.Column ="6" Grid.Row ="3"/>
 
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b40" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="0" Grid.Row ="4" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b41" Background ="black" BorderBrush = "SlateGray" Grid.Column ="1" Grid.Row ="4"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b42" Background ="black" BorderBrush = "SlateGray" Grid.Column ="2" Grid.Row ="4"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b43" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="3" Grid.Row ="4" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b44" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="4"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b45" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="5" Grid.Row ="4" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b46" Background ="black" BorderBrush = "SlateGray" Grid.Column ="6" Grid.Row ="4"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b40"   Grid.Column ="0" Grid.Row ="4" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b41"   Grid.Column ="1" Grid.Row ="4"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b42"   Grid.Column ="2" Grid.Row ="4"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b43"   Grid.Column ="3" Grid.Row ="4" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b44"   Grid.Column ="4" Grid.Row ="4"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b45"   Grid.Column ="5" Grid.Row ="4" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b46"   Grid.Column ="6" Grid.Row ="4"/>
 
 
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b52" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="5" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b53" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="5"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b54" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="5"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b52"   Grid.Column ="2" Grid.Row ="5" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b53"   Grid.Column ="3" Grid.Row ="5"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b54"   Grid.Column ="4" Grid.Row ="5"/>
 
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click"  x:Name="b62" Background ="Black" BorderBrush ="SlateGray" Grid.Column ="2" Grid.Row ="6" />
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b63" Background ="black" BorderBrush = "SlateGray" Grid.Column ="3" Grid.Row ="6"/>
-            <Button Style="{StaticResource OrangeButton}" Click="Button_Click" x:Name="b64" Background ="black" BorderBrush = "SlateGray" Grid.Column ="4" Grid.Row ="6"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click"  x:Name="b62"   Grid.Column ="2" Grid.Row ="6" />
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b63"   Grid.Column ="3" Grid.Row ="6"/>
+            <Button Style="{StaticResource FullButton}" Click="Button_Click" x:Name="b64"   Grid.Column ="4" Grid.Row ="6"/>
 
         </Grid>
         <Popup Name="gameOver" IsOpen="{Binding GameOver, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-      StaysOpen="true"  PlacementTarget="{Binding ElementName=b14}">
+      StaysOpen="true"  PlacementTarget="{Binding ElementName=b14}" Grid.RowSpan="2">
             <Border BorderThickness="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -151,10 +177,14 @@
                 </Grid>
             </Border>
         </Popup>
-        <Button x:Name="resetButton" Click="ResetGame" Content="Reset" HorizontalAlignment="Left" Margin="157,19,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="resetButton" Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top">
+            <Button.Background>
+                <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static/reset.jpg" Stretch="Fill" />
+            </Button.Background>
+        </Button>
         <Button x:Name="redoButton"  Click="Undo" Content="Undo" HorizontalAlignment="Left" Margin="220,19,0,0" VerticalAlignment="Top"/>
 
-        <StackPanel Margin="0,180,0,0">
+        <StackPanel VerticalAlignment="Top" Width =" 180" Height="90" Margin="310,23,310,0" Grid.Row="1" >
             <Image Source="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik\static\logo.jpg" Height="69" Width="200"/>
             <Button x:Name="startButton" Click="Start_Game" Content="Start Game" Width="100" Height="20" />
             <StackPanel.RenderTransform>
@@ -165,30 +195,24 @@
                 <EventTrigger RoutedEvent="Button.Click" SourceName="startButton">
                     <BeginStoryboard>
                         <Storyboard RepeatBehavior="1x">
-
-                            <!-- Animates the rectangle horizotally along the path. -->
                             <DoubleAnimationUsingPath
                                 Storyboard.TargetName="AnimatedTranslateTransform"
                                 Storyboard.TargetProperty="X"
                                 PathGeometry="{StaticResource AnimationPath}"
                                 Source="X" 
-                                Duration="0:0:5"  />
+                                Duration="0:0:3"  />
 
-                            <!-- Animates the rectangle vertically along the path. -->
                             <DoubleAnimationUsingPath
                                 Storyboard.TargetName="AnimatedTranslateTransform"
                                 Storyboard.TargetProperty="Y"
                                 PathGeometry="{StaticResource AnimationPath}"
                                 Source="Y" 
-                                Duration="0:0:5"  />
+                                Duration="0:0:3"  />
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
             </StackPanel.Triggers>
         </StackPanel>
-
-
-        
 
 
     </Grid>

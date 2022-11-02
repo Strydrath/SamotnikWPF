@@ -26,6 +26,10 @@ namespace Samotnik
         private List<Field> highlighted;
         private int score;
         private List<(Field field,int round)> moves;
+        private Style fullStyle;
+        private Style emptyStyle;
+        private Style chosenStyle;
+        private Style highlightStyle;
         public MainWindow()
         {
             GameOver = false;
@@ -33,10 +37,20 @@ namespace Samotnik
             highlighted = new List<Field>();
             moves = new List<(Field, int)>();
             InitializeComponent();
+            setupStyles();
             initValues();
             initBoard();
             score = 0;
             PointCounter.Text = "Punkty = " + score;
+
+        }
+
+        private void setupStyles()
+        {
+            fullStyle = this.FindResource("FullButton") as Style;
+            emptyStyle = this.FindResource("EmptyButton") as Style;
+            chosenStyle = this.FindResource("ChosenButton") as Style;
+            highlightStyle = this.FindResource("HighlightedButton") as Style;
 
         }
         public void initValues()
@@ -93,11 +107,11 @@ namespace Samotnik
                     int columnIndex = System.Windows.Controls.Grid.GetColumn(button);
                     if (boardValues[rowIndex, columnIndex].State == Field.FieldState.empty)
                     {
-                        ((Button)button).Background = Brushes.Black;
+                        ((Button)button).Style = emptyStyle;
                     }
                     else if (boardValues[rowIndex, columnIndex].State == Field.FieldState.full)
                     {
-                        ((Button)button).Background = Brushes.Orange;
+                        ((Button)button).Style = fullStyle;
                     }
                 }
             }
@@ -112,33 +126,31 @@ namespace Samotnik
                 Field b = boardValues[rowIndex, columnIndex];
                 switch (b.State)
                 {
-                    case Field.FieldState.outside:
-                        ((Button)button).Background = Brushes.White;
-                        break;
                     case Field.FieldState.full:
-                        ((Button)button).Background = Brushes.Orange;
+                        ((Button)button).Style = fullStyle;
                         break;
                     case Field.FieldState.empty:
-                        ((Button)button).Background = Brushes.Black;
+                        ((Button)button).Style = emptyStyle;
                         break;
                     case Field.FieldState.highlighted:
-                        ((Button)button).Background = Brushes.Blue;
+                        ((Button)button).Style = highlightStyle;
                         break;
                 }
                 if (b.Equals(chosen))
                 {
-                    ((Button)button).Background = Brushes.Yellow;
+                    ((Button)button).Style = chosenStyle;
                 }
             }
         }
 
-            private void ResetGame(object sender, RoutedEventArgs e)
+        private void ResetGame(object sender, RoutedEventArgs e)
         {
             score = 0;
             initValues();
             initBoard();
             PointCounter.Text = "Punkty = " + score;
             showStates();
+            GameStarted = true;
             gameOver.IsOpen = false;
         }
         private void Undo(object sender, RoutedEventArgs e)
@@ -241,7 +253,7 @@ namespace Samotnik
                 if (checkMove(boardValues[row, column],chosen))
                 {
                     Button button1 = (Button)Board.FindName("b" + row + column);
-                    button1.Background = Brushes.Blue;
+                    button1.Style = chosenStyle;
                     boardValues[row, column].State = Field.FieldState.highlighted;
                     highlighted.Add(boardValues[row, column]);
                 }
