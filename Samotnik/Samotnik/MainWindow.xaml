@@ -205,7 +205,7 @@
                 </Grid>
             </Border>
         </Popup>
-        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="-180,62,0,0" TextAlignment="Center" Width="100" TextWrapping="Wrap" Text="0" FontSize="30" FontFamily="Papyrus" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="-177,56,0,0" FontWeight="Bold" TextAlignment="Center" Width="100" TextWrapping="Wrap" Text="0" FontSize="40" FontFamily="Papyrus" VerticalAlignment="Top" Grid.Column="1"/>
 
         <Button x:Name="resetButton" Style="{StaticResource ResetButton}"  Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Button x:Name="undoButton" Style="{StaticResource ResetButton}"  Click="Undo" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
