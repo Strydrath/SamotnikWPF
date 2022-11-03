@@ -109,6 +109,7 @@
 
 
     </Window.Resources>
+    
     <Grid x:Name="AllContent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="113*"/>
@@ -118,7 +119,6 @@
             <RowDefinition Height="159*"/>
             <RowDefinition Height="295*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="31,32,0,0" TextWrapping="Wrap" Text="0" FontSize="30" FontFamily="Papyrus" VerticalAlignment="Top" Grid.Column="1"/>
         <Grid x:Name ="Board" Width="400" HorizontalAlignment="Left" Margin="200,27,0,27" Grid.RowSpan="2" Grid.ColumnSpan="2"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -205,6 +205,8 @@
                 </Grid>
             </Border>
         </Popup>
+        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="-180,62,0,0" TextAlignment="Center" Width="100" TextWrapping="Wrap" Text="0" FontSize="30" FontFamily="Papyrus" VerticalAlignment="Top" Grid.Column="1"/>
+
         <Button x:Name="resetButton" Style="{StaticResource ResetButton}"  Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Button x:Name="undoButton" Style="{StaticResource ResetButton}"  Click="Undo" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <Button.Background>
