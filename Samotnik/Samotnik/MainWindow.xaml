@@ -7,7 +7,14 @@
         mc:Ignorable="d"
         Title="Samotnik" Height="470" Width="800" ResizeMode="NoResize"
         Icon="pack://siteoforigin:,,,/static/full.jpg">
+    <Window.Background >
+   
+            <ImageBrush ImageSource="pack://siteoforigin:,,,/static/tlosam2.png" Stretch="Fill" />
+       
+    </Window.Background>
+
     <Window.Resources>
+        
         <PathGeometry x:Key="AnimationPath">
             <PathFigure IsClosed="False" StartPoint="0,0">
                 <PathFigure.Segments>
@@ -103,12 +110,16 @@
 
     </Window.Resources>
     <Grid x:Name="AllContent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="113*"/>
+            <ColumnDefinition Width="287*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="159*"/>
             <RowDefinition Height="295*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="257,32,0,0" TextWrapping="Wrap" Text="0" FontSize="30" FontFamily="Papyrus" VerticalAlignment="Top"/>
-        <Grid x:Name ="Board" Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,27,0,0" Grid.RowSpan="2"  >
+        <TextBlock x:Name="PointCounter" HorizontalAlignment="Left" Margin="31,32,0,0" TextWrapping="Wrap" Text="0" FontSize="30" FontFamily="Papyrus" VerticalAlignment="Top" Grid.Column="1"/>
+        <Grid x:Name ="Board" Width="400" HorizontalAlignment="Left" Margin="200,27,0,27" Grid.RowSpan="2" Grid.ColumnSpan="2"  >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -174,7 +185,7 @@
 
         </Grid>
         <Popup Name="gameOver" IsOpen="{Binding GameOver, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-      StaysOpen="true"  PlacementTarget="{Binding ElementName=b14}" Grid.RowSpan="2">
+      StaysOpen="true"  PlacementTarget="{Binding ElementName=b14}" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Border BorderThickness="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -194,14 +205,14 @@
                 </Grid>
             </Border>
         </Popup>
-        <Button x:Name="resetButton" Style="{StaticResource ResetButton}"  Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="undoButton" Style="{StaticResource ResetButton}"  Click="Undo" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,70,0,0" VerticalAlignment="Top">
+        <Button x:Name="resetButton" Style="{StaticResource ResetButton}"  Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Button x:Name="undoButton" Style="{StaticResource ResetButton}"  Click="Undo" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <Button.Background>
                 <ImageBrush ImageSource="pack://siteoforigin:,,,/static/undo.jpg" Stretch="Fill" />
             </Button.Background>
         </Button>
 
-        <StackPanel VerticalAlignment="Top" Width =" 180" Height="90" Margin="310,23,310,0" Grid.Row="1" >
+        <StackPanel VerticalAlignment="Top" Width =" 180" Height="90" Margin="84,23,310,0" Grid.Row="1" Grid.Column="1" >
             <Image Source="pack://siteoforigin:,,,/static/logo.jpg" Height="69" Width="200"/>
             <Button x:Name="startButton" Click="Start_Game" Content="Start Game" Width="100" Height="20" />
             <StackPanel.RenderTransform>
@@ -230,11 +241,11 @@
                 </EventTrigger>
             </StackPanel.Triggers>
         </StackPanel>
-        <StackPanel Margin="538,126,-38,10" Grid.Row="1" Width="250">
+        <StackPanel Margin="337,126,-13,10" Grid.Row="1" Width="250" Grid.Column="1">
             <TextBlock x:Name="Instructions"  TextWrapping="Wrap" FontWeight="Bold" FontFamily="Papyrus" Text="Choose board       or create your own" VerticalAlignment="Center" Width="103"/>
             <ComboBox SelectedValuePath="Content" x:Name="Stages" SelectionChanged="Load_Stage" Margin="20"  Width="120"/>
             <Button  x:Name="LoadButton"  Click="Choose_Stage" Content="START" Width="100" />
-            </StackPanel>
+        </StackPanel>
 
     </Grid>
 </Window>
