@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:Samotnik"
         mc:Ignorable="d"
         Title="Samotnik" Height="470" Width="800" ResizeMode="NoResize"
-        Icon="pack://siteoforigin:,,,/static/full.jpg">
+        Icon="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/full.jpg">
     <Window.Background >
-   
-            <ImageBrush ImageSource="pack://siteoforigin:,,,/static/tlosam2.png" Stretch="Fill" />
+
+        <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/tlosam2.png" Stretch="Fill" />
        
     </Window.Background>
 
@@ -30,7 +30,7 @@
             <Setter Property="Margin" Value=" 0 0 0 0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/full.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/full.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -47,7 +47,7 @@
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/empty.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/empty.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -63,7 +63,7 @@
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/chosen.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/chosen.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -79,7 +79,7 @@
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/highlighted.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/highlighted.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -95,7 +95,7 @@
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" >
                 <Setter.Value>
-                    <ImageBrush ImageSource="pack://siteoforigin:,,,/static/reset.jpg" Stretch="Fill" />
+                    <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/reset.jpg" Stretch="Fill" />
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
@@ -210,12 +210,12 @@
         <Button x:Name="resetButton" Style="{StaticResource ResetButton}"  Click="ResetGame" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,19,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Button x:Name="undoButton" Style="{StaticResource ResetButton}"  Click="Undo" HorizontalAlignment="Left" Width="80" Height="50" Margin="157,70,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <Button.Background>
-                <ImageBrush ImageSource="pack://siteoforigin:,,,/static/undo.jpg" Stretch="Fill" />
+                <ImageBrush ImageSource="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/undo.jpg" Stretch="Fill" />
             </Button.Background>
         </Button>
 
         <StackPanel VerticalAlignment="Top" Width =" 180" Height="90" Margin="84,23,310,0" Grid.Row="1" Grid.Column="1" >
-            <Image Source="pack://siteoforigin:,,,/static/logo.jpg" Height="69" Width="200"/>
+            <Image Source="C:\Users\SPECTRE\Desktop\STUDIA\GIT\SamotnikWPF\Samotnik\Samotnik/static/logo.jpg" Height="69" Width="200"/>
             <Button x:Name="startButton" Click="Start_Game" Content="Start Game" Width="100" Height="20" />
             <StackPanel.RenderTransform>
                 <TranslateTransform x:Name="AnimatedTranslateTransform"  />
